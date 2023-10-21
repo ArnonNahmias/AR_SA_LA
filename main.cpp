@@ -6,7 +6,7 @@
 using namespace std;
 
 void chopCSV(string filename, int lines);
-int cantArg=0;
+
 void exploreCSV(string filename){
     //int colsOfInterest[] = {0, 2, 3, 12, 13, 14, 17, 20};
     int colsOfInterest[] = {0, 1,  2, 3, 4, 5, 6, 7};  //puede variar
@@ -35,10 +35,11 @@ void exploreCSV(string filename){
         }
         for (int i = 0; i < nColumns; i++)
         {
+            cout << row[colsOfInterest[i]] << " ";
             cant++;
         }
     }
-    cout << "\n>> Cantidad de Art. Dif.: " << cant/cantArg << endl;
+    cout << "Cantidad de Art. Dif.: " << cant/8 << endl;
 }
 
 void exploreHeaders(string fileName){
@@ -51,7 +52,6 @@ void exploreHeaders(string fileName){
     while (getline(s, header, ','))
     {
         cout<< header << endl;
-        cantArg++;
     }
 }
 
