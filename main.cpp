@@ -4,17 +4,18 @@
 #include <vector>
 #include "string.h"
 using namespace std;
-
+int cantTitulos=0;
+int cantCeldas=0;
 void chopCSV(string filename, int lines);
 
-void exploreCSV(string filename){
-    //int colsOfInterest[] = {0, 2, 3, 12, 13, 14, 17, 20};
+void exploreCSV(string filename){  //"aca esta lo gordo"
     int colsOfInterest[] = {0, 1,  2, 3, 4, 5, 6, 7};  //puede variar
-    int nColumns=sizeof(colsOfInterest) / sizeof(colsOfInterest[0]);
+    int nColumns=sizeof(colsOfInterest) / sizeof(colsOfInterest[0]); // Es lo mismo que cantTitulos
     int cant = 0;
-    fstream fin;
 
-    fin.open("./" +filename, ios::in);
+    fstream fin; //para poder manejar el archivo
+
+    fin.open("./" +filename, ios::in); //abrimos el archivo
 
     vector <string> row;
     string line, word;
@@ -35,23 +36,24 @@ void exploreCSV(string filename){
         }
         for (int i = 0; i < nColumns; i++)
         {
-            cout << row[colsOfInterest[i]] << " ";
-            cant++;
+            cout << row[0, 1] << " ";
+            cantCeldas++;
         }
     }
-    cout << "Cantidad de Art. Dif.: " << cant/8 << endl;
+
 }
 
-void exploreHeaders(string fileName){
-    fstream fin;
-    fin.open("./" + fileName, ios::in);
+void exploreHeaders(string fileName){ //para encontrar los titulos
+    fstream fin; //lee el archivo
+    fin.open("./" + fileName, ios::in); //ruta y nombre del archivo
 
-    string headers, header;
-    getline(fin, headers);
-    stringstream s(headers);
-    while (getline(s, header, ','))
+    string primeraLinea, titulo;
+    getline(fin, primeraLinea); // Se toma la primer linea del archivo y se almacenta en 'primeraLinea'
+    stringstream s(primeraLinea);  //flujo de string
+    while (getline(s, titulo, ',')) //el flujo almacena en la variable titulo la palabra siempre que encuentre una ,
     {
-        cout<< header << endl;
+        cout<< titulo << endl;
+        cantTitulos++;
     }
 }
 
@@ -66,7 +68,9 @@ int main(int argc, char **argv)
             cout << "Nombre del archivo: " << argv[i+1] << endl;
             exploreHeaders(argv[i+1]);
             exploreCSV(argv[i+1]);
-            break;
+        }
+        if (strcmp(argv[i], "-cantArt") == 0){
+            cout << "\n\n>> Cantidad de Art. Dif.: " << (cantCeldas/cantTitulos)-1 << endl;
         }
     }
     return 0;
