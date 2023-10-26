@@ -1,6 +1,6 @@
 //
 // Created by dante on 24/10/2023.
-//
+// se mucho
 
 #ifndef PROYECTO_ARTICULO_H
 #define PROYECTO_ARTICULO_H
