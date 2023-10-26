@@ -3,6 +3,8 @@
 #include <sstream>
 #include <vector>
 #include "string.h"
+
+#define NOMBRE_ARCHIVO "Inventario.csv"
 using namespace std;
 
 void chopCSV(string filename, int lines);
@@ -24,6 +26,34 @@ void exploreHeaders(string fileName){
 
 int main(int argc, char **argv)
 {
+     ifstream archivo(NOMBRE_ARCHIVO);
+     string linea;
+     char delimitador = ',' ;
+     getline(archivo, linea);
+     while (getline(archivo, linea)) {
+     stringstream stream (linea);
+     string Grupo, CodigoDeBarras, Articulo, Deposito1, Deposito2, Deposito3, Deposito4, Deposito5;
+     getline(stream, Grupo, delimitador);
+     getline(stream, CodigoDeBarras, delimitador);
+     getline(stream, Articulo, delimitador);
+     getline(stream, Deposito1, delimitador);
+     getline(stream, Deposito2, delimitador);
+     getline(stream, Deposito3, delimitador);
+     getline(stream, Deposito4, delimitador);
+     getline(stream, Deposito5, delimitador);
+
+     cout<< "-------------------" <<endl;
+     cout<< "Grupo: "<<Grupo<<endl;
+     cout<< "CodigoDeBarras: " << CodigoDeBarras<<endl;
+     cout<< "Articulo: "<< Articulo<<endl;
+     cout<< "Deposito1: "<<Deposito1<<endl;
+     cout<< "Deposito2: "<<Deposito2<<endl;
+     cout<< "Deposito3: "<<Deposito3<<endl;
+     cout<< "Deposito4: "<<Deposito4<<endl;
+     cout<< "Deposito5: "<<Deposito5<<endl;
+     }
+     archivo.close();
+
     cout << "Cantidad de argumentos: " << argc << endl;
     for (int i=0 ; i < argc; i++)
     {
