@@ -5,39 +5,46 @@
 #ifndef PROYECTO_ARTICULO_H
 #define PROYECTO_ARTICULO_H
 
+#include <iostream>
+#include <fstream>
 #include <string>
+#include <sstream>
+#include <vector>
+
 using namespace std;
 
 class Articulo {
 private:
     string grupo;
-    int stockTotal;
+    string codigoDeBarras;
     string nombre;
-    string codigoDeBarra;
+    vector<string> depositos;
 public:
-    Articulo(string grupo, int stockTotal, string nombre, string codigoDeBarra) {
-        this->grupo = grupo;
-        this->stockTotal = stockTotal;
-        this->nombre = nombre;
-        this->codigoDeBarra = codigoDeBarra;
+    Articulo() {}
+    Articulo(const string &grupo, const string &codigoDeBarras, const string &nombre) :
+            grupo(grupo), codigoDeBarras(codigoDeBarras), nombre(nombre) {}
+
+    void agregarDeposito(const std::string &deposito) {
+        depositos.push_back(deposito);
     }
-    // Getters
-    string getGrupo() const;
 
-    int getStockTotal() const;
+    void imprimir() {
+        int cantDepositos = depositos.size();
+        cout << "> Grupo: " << grupo << endl;
+        cout << "> Codigo de Barras: " << codigoDeBarras << endl;
+        cout << "> Nombre: " << nombre << endl;
+        for (int i = 0; i < cantDepositos; i++) {
+            cout << "> Deposito " << i+1 << ": " << depositos[i] << endl;
+        }
+        cout << "|---------------------------------------|" << endl;
+    }
 
-    string getNombre() const;
+    const string &getNombre() const {
+        return nombre;
+    }
 
-    string getCodigoDeBarra() const;
 
-    // Setters
-    void setGrupo(string grupo);
 
-    void setStockTotal(int stockTotal);
-
-    void setNombre(string nombre);
-
-    void setCodigoDeBarra(string codigoDeBarra);
 };
 
 
