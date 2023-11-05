@@ -11,9 +11,10 @@ using namespace std;
 
 unordered_map<string, Articulo> inventario; //
 int cantArt = 0;
+
 int contarColumnas(const string &nombreArchivo);
 
-void procesarArchivoCSV(const std::string &nombreArchivo);
+void procesarArchivoCSV(const string &nombreArchivo);
 
 void anadirInventario(Articulo);
 
@@ -26,13 +27,11 @@ int main(int argc, char **argv)
         cout << "Argumento " << i << ": " <<argv[i] << endl;
 
         if (strcmp(argv[i], "-file") == 0){
-            cout << "Nombre del archivo: " << argv[i+1] << endl;
+            cout << "Nombre del Archivo ---> " << argv[i+1] << endl;
             procesarArchivoCSV(argv[i+1]);
-            break;
         }
-        if (strcmp(argv[i], "cantArt") == 0){
-            cout << "CANT ARTICULOS: " << endl;
-            break;
+        if (strcmp(argv[i], "-cantArt") == 0){
+            cout << "\nCantidad de Articulos ---> " << cantArt << endl;
         }
 
     }
@@ -45,7 +44,7 @@ int contarColumnas(const string &nombreArchivo){
     ifstream archivo(nombreArchivo);
 
     if (!archivo.is_open()) {
-        std::cerr << "No se pudo abrir el archivo." << std::endl;
+        cerr << "No se pudo abrir el archivo." << endl;
         return -1;
     }
 
@@ -85,7 +84,7 @@ void procesarArchivoCSV(const string &nombreArchivo) {
     while (getline(archivo, linea)) {
         stringstream stream(linea);
         string Grupo, CodigoDeBarras, Nombre;
-        vector<std::string> depositos;
+        vector<string> depositos;
 
         getline(stream, Grupo, delimitador);
         getline(stream, CodigoDeBarras, delimitador);
@@ -108,9 +107,7 @@ void procesarArchivoCSV(const string &nombreArchivo) {
 }
 
 void anadirInventario(Articulo articulo){
-    inventario[articulo.getNombre()]={articulo};
 }
 
 Articulo buscarArticulo(string nombre){
-    return inventario.find(nombre);
 }
