@@ -4,7 +4,15 @@
 
 #include "Articulo.h"
 
-// Getters
+
+void Articulo::imprimir() {
+    cout << "> Grupo: " << grupo << endl;
+    cout << "> Código de Barras: " << codigoDeBarra << endl;
+    cout << "> Nombre: " << nombre << endl;
+    cout << "> Stock Total: " << stockTotal << endl;
+    cout << "|----------------------------|" << endl;
+}
+
 string Articulo::getGrupo() const {
     return grupo;
 }
@@ -21,7 +29,6 @@ string Articulo::getCodigoDeBarra() const {
     return codigoDeBarra;
 }
 
-// Setters
 void Articulo::setGrupo(string grupo) {
     this->grupo = grupo;
 }
@@ -37,4 +44,5 @@ void Articulo::setNombre(string nombre) {
 void Articulo::setCodigoDeBarra(string codigoDeBarra) {
     this->codigoDeBarra = codigoDeBarra;
 }
+
 
