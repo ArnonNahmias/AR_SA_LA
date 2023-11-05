@@ -3,68 +3,114 @@
 #include <sstream>
 #include <vector>
 #include "string.h"
+#include "Articulo.h"
+#include <unordered_map>
 
 #define NOMBRE_ARCHIVO "Inventario.csv"
 using namespace std;
 
-void chopCSV(string filename, int lines);
+unordered_map<string, Articulo> inventario; //
+int cantArt = 0;
+int contarColumnas(const string &nombreArchivo);
 
-void exploreCSV(string filename);
+void procesarArchivoCSV(const std::string &nombreArchivo);
 
-void exploreHeaders(string fileName){
-    fstream fin;
-    fin.open("./" + fileName, ios::in);
+void anadirInventario(Articulo);
 
-    string headers, header;
-    getline(fin, header);
-    stringstream s(headers);
-    while (getline(s, header, ','))
-    {
-        cout<< header << endl;
-    }
-}
+Articulo buscarArticulo(string);
 
 int main(int argc, char **argv)
 {
-     ifstream archivo(NOMBRE_ARCHIVO);
-     string linea;
-     char delimitador = ',' ;
-     getline(archivo, linea);
-     while (getline(archivo, linea)) {
-     stringstream stream (linea);
-     string Grupo, CodigoDeBarras, Articulo, Deposito1, Deposito2, Deposito3, Deposito4, Deposito5;
-     getline(stream, Grupo, delimitador);
-     getline(stream, CodigoDeBarras, delimitador);
-     getline(stream, Articulo, delimitador);
-     getline(stream, Deposito1, delimitador);
-     getline(stream, Deposito2, delimitador);
-     getline(stream, Deposito3, delimitador);
-     getline(stream, Deposito4, delimitador);
-     getline(stream, Deposito5, delimitador);
-
-     cout<< "-------------------" <<endl;
-     cout<< "Grupo: "<<Grupo<<endl;
-     cout<< "CodigoDeBarras: " << CodigoDeBarras<<endl;
-     cout<< "Articulo: "<< Articulo<<endl;
-     cout<< "Deposito1: "<<Deposito1<<endl;
-     cout<< "Deposito2: "<<Deposito2<<endl;
-     cout<< "Deposito3: "<<Deposito3<<endl;
-     cout<< "Deposito4: "<<Deposito4<<endl;
-     cout<< "Deposito5: "<<Deposito5<<endl;
-     }
-     archivo.close();
-
-    cout << "Cantidad de argumentos: " << argc << endl;
     for (int i=0 ; i < argc; i++)
     {
         cout << "Argumento " << i << ": " <<argv[i] << endl;
 
-        if (strcmp(argv[i], ".file") ==0){
+        if (strcmp(argv[i], "-file") == 0){
             cout << "Nombre del archivo: " << argv[i+1] << endl;
-            exploreHeaders(argv[i+1]);
+            procesarArchivoCSV(argv[i+1]);
             break;
         }
+        if (strcmp(argv[i], "cantArt") == 0){
+            cout << "CANT ARTICULOS: " << endl;
+            break;
+        }
+
     }
+
     return 0;
 }
 
+int contarColumnas(const string &nombreArchivo){
+// Abre el archivo CSV en modo de lectura
+    ifstream archivo(nombreArchivo);
+
+    if (!archivo.is_open()) {
+        std::cerr << "No se pudo abrir el archivo." << std::endl;
+        return -1;
+    }
+
+    string primeraLinea;
+    getline(archivo, primeraLinea);  // Leer la primera línea
+
+    // Utiliza un stringstream para separar los campos de la primera línea
+    istringstream ss(primeraLinea);
+    string campo;
+    int contadorColumnas = 0;
+
+    // Cuenta los campos de la primera línea
+    while (getline(ss, campo, ',')) {
+        contadorColumnas++;
+    }
+
+    // Cierra el archivo
+    archivo.close();
+
+    return contadorColumnas;
+}
+
+void procesarArchivoCSV(const string &nombreArchivo) {
+    ifstream archivo(nombreArchivo);
+    if (!archivo.is_open()) {
+        cerr << "No se pudo abrir el archivo." << endl;
+        return;
+    }
+
+    string linea;
+    char delimitador = ',';
+    getline(archivo, linea); // Leer la primera línea
+
+    int cantDepositos=0;
+    cantDepositos = contarColumnas(nombreArchivo) - 3;
+
+    while (getline(archivo, linea)) {
+        stringstream stream(linea);
+        string Grupo, CodigoDeBarras, Nombre;
+        vector<std::string> depositos;
+
+        getline(stream, Grupo, delimitador);
+        getline(stream, CodigoDeBarras, delimitador);
+        getline(stream, Nombre, delimitador);
+
+        Articulo nuevoArticulo(Grupo, CodigoDeBarras, Nombre);
+        cantArt = cantArt +1;
+        // Leer los valores de los depósitos y agregarlos al objeto Articulo
+        string deposito;
+
+        for (int i=0; i < cantDepositos; i++) {
+            getline(stream, deposito, delimitador);
+            nuevoArticulo.agregarDeposito(deposito);
+        }
+        // Imprimir el objeto Articulo
+        nuevoArticulo.imprimir();
+    }
+
+    archivo.close();
+}
+
+void anadirInventario(Articulo articulo){
+    inventario[articulo.getNombre()]={articulo};
+}
+
+Articulo buscarArticulo(string nombre){
+    return inventario.find(nombre);
+}
