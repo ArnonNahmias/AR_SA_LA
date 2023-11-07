@@ -8,7 +8,6 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "C:/Users/dante/OneDrive/Escritorio/AR_SA_LA/Articulo.cpp" "CMakeFiles/Proyecto.dir/Articulo.cpp.obj" "gcc" "CMakeFiles/Proyecto.dir/Articulo.cpp.obj.d"
   "C:/Users/dante/OneDrive/Escritorio/AR_SA_LA/main.cpp" "CMakeFiles/Proyecto.dir/main.cpp.obj" "gcc" "CMakeFiles/Proyecto.dir/main.cpp.obj.d"
   )
 

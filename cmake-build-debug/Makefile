@@ -128,30 +128,6 @@ Proyecto/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Proyecto.dir\build.make CMakeFiles/Proyecto.dir/build
 .PHONY : Proyecto/fast
 
-Articulo.obj: Articulo.cpp.obj
-.PHONY : Articulo.obj
-
-# target to build an object file
-Articulo.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Proyecto.dir\build.make CMakeFiles/Proyecto.dir/Articulo.cpp.obj
-.PHONY : Articulo.cpp.obj
-
-Articulo.i: Articulo.cpp.i
-.PHONY : Articulo.i
-
-# target to preprocess a source file
-Articulo.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Proyecto.dir\build.make CMakeFiles/Proyecto.dir/Articulo.cpp.i
-.PHONY : Articulo.cpp.i
-
-Articulo.s: Articulo.cpp.s
-.PHONY : Articulo.s
-
-# target to generate assembly for a file
-Articulo.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Proyecto.dir\build.make CMakeFiles/Proyecto.dir/Articulo.cpp.s
-.PHONY : Articulo.cpp.s
-
 main.obj: main.cpp.obj
 .PHONY : main.obj
 
@@ -185,9 +161,6 @@ help:
 	@echo ... edit_cache
 	@echo ... rebuild_cache
 	@echo ... Proyecto
-	@echo ... Articulo.obj
-	@echo ... Articulo.i
-	@echo ... Articulo.s
 	@echo ... main.obj
 	@echo ... main.i
 	@echo ... main.s
