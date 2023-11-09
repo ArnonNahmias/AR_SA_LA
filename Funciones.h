@@ -7,34 +7,82 @@
 #include <vector>
 #include <cstring>
 #include <cctype>
+#include <iomanip>
 #include "Articulo.h"
 #include "HashMap.h"
 
 using namespace std;
 
+/**
+ * Cantidad total de artículos.
+ */
 int cantArt = 0;
+
+/**
+ * Hashmap que almacena el inventario de artículos, utilizando el nombre del artículo como clave.
+ */
 HashMap<string, Articulo> inventario;
 
+/**
+ * Cuenta el número de columnas en el archivo CSV.
+ * @param nombreArchivo El nombre del archivo CSV a procesar.
+ * @return El número de columnas en la primera línea del archivo.
+ */
 int contarColumnas(const string &nombreArchivo);
 
+/**
+ * Procesa un archivo CSV y almacena la información en el inventario.
+ * @param nombreArchivo El nombre del archivo CSV a procesar.
+ */
 void procesarArchivoCSV(const string &nombreArchivo);
 
+/**
+ * Imprime la información de todos los artículos en el inventario.
+ */
 void imprimirTodo();
 
-void stockTotal();
+/**
+ * Imprime la cantidad total de artículos en el inventario.
+ * @return La cantidad total de artículos.
+ */
+void cantTotalArt();
 
-int cantTotalArt();
+/**
+ * Imprime cantidad total de artículos diferentes en el inventario.
+ * @return La cantidad total de artículos diferentes.
+ */
+void cantTotalArtDif();
 
-int cantTotalArtDif();
-
+/**
+ * Imprime un listado de los artículos con un stock total menor o igual al mínimo especificado.
+ * @param minStock El stock mínimo para filtrar los artículos.
+ */
 void listadoMinStock(int minStock);
 
+/**
+ * Imprime un listado de los artículos con un stock en un depósito específico menor o igual al mínimo especificado.
+ * @param minStock El stock mínimo para filtrar los artículos.
+ * @param deposito El índice del depósito para verificar el stock.
+ */
 void listadoMinStockDeposito(int minStock, int deposito);
 
+/**
+ * Imprime el stock total de un artículo específico.
+ * @param nombreArticulo El nombre del artículo.
+ */
 void stockArticulo(string nombreArticulo);
 
+/**
+ * Imprime el stock de un artículo específico en un depósito dado.
+ * @param nombreArticulo El nombre del artículo.
+ * @param deposito El índice del depósito.
+ */
 void stockArticuloDeposito(string nombreArticulo, int deposito);
 
+/**
+ * Imprime un listado de los artículos con un stock total mayor o igual al máximo especificado.
+ * @param maxStock El stock máximo para filtrar los artículos.
+ */
 void listadoMaxStock(int maxStock);
 
 void procesarArchivoCSV(const string &nombreArchivo) {
@@ -68,7 +116,7 @@ void procesarArchivoCSV(const string &nombreArchivo) {
         getline(stream, nombre, delimitador);
 
         Articulo nuevoArticulo(grupo, codigoDeBarras, nombre);
-
+        cantArt = cantArt + 1;
         // Leer los valores de los depósitos y agregarlos al stock total
         string depositoStr;
         int depositoInt;
@@ -129,7 +177,7 @@ void imprimirTodo(){
     delete[] arregloDeArticulos;
 }
 
-int cantTotalArt(){
+void CantTotalArt(){
     Articulo* arregloDeArticulos;
     arregloDeArticulos = inventario.obtenerTodosLosArticulos(cantArt);
     int cantTotal = 0;
@@ -139,21 +187,29 @@ int cantTotalArt(){
     }
     delete[] arregloDeArticulos;
 
-    return cantTotal;
+    cout << "\n---------------------------------------------------------------" << endl;
+    cout << "CANTIDAD TOTAL DE ARTICULOS: " << cantTotal << endl;
+    cout << "---------------------------------------------------------------" << endl;
+
+
 }
 
-int cantTotalArtDif(){
-    return cantArt; //todo revisar donde se cambia esta cantidad.
+void cantTotalArtDif(){
+    cout << "\n---------------------------------------------------------------" << endl;
+    cout << "CANTIDAD TOTAL DE ARTICULOS DIFERENTES: " << inventario.getTamano() << endl;
+    cout << "---------------------------------------------------------------" << endl;
 }
 
 void listadoMinStock(int minStock){
     Articulo* arregloDeArticulos;
     arregloDeArticulos = inventario.obtenerTodosLosArticulos(cantArt);
-    if (minStock < 0){ //todo Cambiarlo el try catch.
+    if (minStock < 0){
         cerr << "ERROR: Valor NO Aceptado, Ingresar Valores Positivos. " << endl;
-        exit(1);// Retornar 0 o lanzar una excepción según la lógica de tu aplicación.
+        exit(1);
     }
-    cout << " Listado de Articulos con cantidad menor o igual a " << minStock << " :" << endl;
+    cout << "\n---------------------------------------------------------------" << endl;
+    cout << "LISTADO ARTICULOS CON STOCK MENOR O IGUAL A: " << minStock << " " << endl;
+    cout << "---------------------------------------------------------------" << endl;
     for (size_t i = 0; i < cantArt; ++i) {
         if ( arregloDeArticulos[i].getStockTotal() <= minStock){
             arregloDeArticulos[i].imprimir();
@@ -170,7 +226,10 @@ void listadoMinStockDeposito(int minStock, int deposito){
         cerr << "ERROR: Valor NO Aceptado, Ingresar Valores Positivos. " << endl;
         exit(1);// Retornar 0 o lanzar una excepción según la lógica de tu aplicación.
     }
-    cout << " Listado de Articulos con cantidad menor o igual a " << minStock << " en el deposito " << deposito << " : " << endl;
+    cout << "\n---------------------------------------------------------------" << endl;
+    cout << "LISTADO ARTICULOS CON STOCK MENOR O IGUAL A " << minStock << " EN EL DEPOSITO " << deposito << " : " << endl;
+    cout << "---------------------------------------------------------------" << endl;
+
     for (size_t i = 0; i < cantArt; ++i) {
         if ( arregloDeArticulos[i].obtenerStockDeposito(deposito) >= minStock){
             arregloDeArticulos[i].imprimir();
@@ -185,7 +244,9 @@ void stockArticulo(string nombreArticulo){
     }
     Articulo artEncontrado;
     artEncontrado = inventario.obtener(nombreArticulo);
-    cout << "Stock del Articulo: " << nombreArticulo << " -----> " << artEncontrado.getStockTotal() << endl;
+    cout << "\n---------------------------------------------------------------" << endl;
+    cout << "STOCK DEL ARTICULO " << nombreArticulo << " :" << artEncontrado.getStockTotal() << endl;
+    cout << "---------------------------------------------------------------" << endl;
 }
 
 void stockArticuloDeposito(string nombreArticulo, int deposito){
@@ -195,17 +256,22 @@ void stockArticuloDeposito(string nombreArticulo, int deposito){
     deposito = deposito - 1;
     Articulo artEncontrado;
     artEncontrado = inventario.obtener(nombreArticulo);
-    cout << "Stock del Articulo " << nombreArticulo << " en el deposito " << deposito+1 << " -----> " << artEncontrado.obtenerStockDeposito(deposito) << endl;
+    cout << "\n---------------------------------------------------------------" << endl;
+    cout << "STOCK DEL ARTICULO " << nombreArticulo << " EN EL DEPOSITO " << deposito+1 << " : " << artEncontrado.obtenerStockDeposito(deposito) << endl;
+    cout << "---------------------------------------------------------------" << endl;
 }
 
 void listadoMaxStock(int maxStock){
     Articulo* arregloDeArticulos;
     arregloDeArticulos = inventario.obtenerTodosLosArticulos(cantArt);
-    if (maxStock < 0){ //todo Cambiarlo el try catch.
+    if (maxStock < 0){
         cerr << "ERROR: Valor NO Aceptado, Ingresar Valores Positivos. " << endl;
-        exit(1);// Retornar 0 o lanzar una excepción según la lógica de tu aplicación.
+        exit(1);
     }
-    cout << " Listado de Articulos con cantidad mayor o igual a " << maxStock << " :" << endl;
+    cout << "\n---------------------------------------------------------------" << endl;
+    cout << "LISTADO DE ARTICULOS CON STOCK MAYOR O IGUAL A " << maxStock << " :" << endl;
+    cout << "---------------------------------------------------------------" << endl;
+
     for (size_t i = 0; i < cantArt; ++i) {
         if ( arregloDeArticulos[i].getStockTotal() >= maxStock){
             arregloDeArticulos[i].imprimir();
@@ -213,8 +279,5 @@ void listadoMaxStock(int maxStock){
     }
     delete[] arregloDeArticulos;
 }
-
-
-
 
 #endif //PROYECTO_FUNCIONES_H
