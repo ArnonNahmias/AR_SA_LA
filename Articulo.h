@@ -17,7 +17,7 @@ private:
     string codigoDeBarras; // Código único del artículo.
     string nombre; // Nombre descriptivo del artículo.
     vector<int> depositos; // Lista de depósitos donde se encuentra el artículo.
-
+    int cantDepositosFinales = 0; // Cantidad de Depositos
 public:
     /**
    * @brief Constructor por defecto.
@@ -41,6 +41,7 @@ public:
      */
     void agregarDeposito(const int &deposito) {
         depositos.push_back(deposito);
+        cantDepositosFinales++;
     }
 
     /**
@@ -92,6 +93,7 @@ public:
     const string& getNombre() const { return nombre; }
     const string& getCodigoDeBarras() const { return codigoDeBarras; }
     const string &getGrupo() const { return grupo; }
+    const int &getCantDepositosFinales() const { return cantDepositosFinales; }
     void setGrupo(const string &grupo) { this->grupo = grupo; }
     void setCodigoDeBarras(const string &codigoDeBarras) { this->codigoDeBarras = codigoDeBarras; }
     void setNombre(const string &nombre) { this->nombre = nombre; }
