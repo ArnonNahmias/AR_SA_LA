@@ -3,4 +3,5 @@ project(Proyecto)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_executable(Proyecto main.cpp Articulo.h HashMap.h HashEntry.h Funciones.h)
+add_executable(Proyecto main.cpp Articulo.h HashMap.h HashEntry.h
+        Funciones.h)
