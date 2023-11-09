@@ -1,58 +1,99 @@
-#include <iostream>
-#include <string>
-#include <unordered_map> // Para usar std::unordered_map
+// HashMap.h
+#ifndef HASHMAP_H
+#define HASHMAP_H
 
+#include "HashEntry.h"
+#include <vector>
+#include <list>
+#include <algorithm>
+#include <stdexcept>
+#include <iomanip>
+
+template<typename K, typename V>
 class HashMap {
 private:
-    std::unordered_map<std::string, int> hashMap;
+    vector<list<HashEntry<K, V>>> tabla;
+    size_t capacidad;
+    size_t tamano;
+
+    size_t hashFunc(const K& clave) const {
+        // Asumiendo una funcion hash genérica para K.
+        return hash<K>()(clave) % capacidad;
+    }
 
 public:
-    HashMap() {}
+    HashMap(size_t capacidad = 1000) : capacidad(capacidad), tamano(0) {
+        tabla.resize(capacidad);
+    }
 
-    int get(const std::string &clave) {
-        // Intenta encontrar la clave en el mapa
-        auto it = hashMap.find(clave);
-        if (it != hashMap.end()) {
-            // Si la clave está presente, devuelve el valor asociado
-            return it->second;
+    void insertar(const K& clave, const V& valor) {
+        size_t indice = hashFunc(clave);
+        auto& lista = tabla[indice];
+        auto it = find_if(lista.begin(), lista.end(), [&clave](const HashEntry<K, V>& entry) {
+            return entry.getClave() == clave;
+        });
+        if (it != lista.end()) {
+            it->setValor(valor);
         } else {
-            // Si la clave no está presente, devuelve un valor predeterminado
-            return -1; // O cualquier otro valor que desees usar para indicar que la clave no fue encontrada
+            lista.emplace_back(clave, valor);
+            ++tamano;
         }
     }
 
-    void put(const std::string &clave, int valor) {
-        // Inserta o actualiza la clave con el valor proporcionado
-        hashMap[clave] = valor;
+    bool contieneClave(const K& clave) const {
+        size_t indice = hashFunc(clave);
+        const auto& lista = tabla[indice];
+        return any_of(lista.begin(), lista.end(), [&clave](const HashEntry<K, V>& entry) {
+            return entry.getClave() == clave;
+        });
     }
 
-    void remove(const std::string &clave) {
-        // Intenta eliminar la clave del mapa
-        auto it = hashMap.find(clave);
-        if (it != hashMap.end()) {
-            // Si la clave está presente, elimínala del mapa
-            hashMap.erase(it);
+    V obtener(const K& clave) const {
+        size_t indice = hashFunc(clave);
+        const auto& lista = tabla[indice];
+        auto it = find_if(lista.begin(), lista.end(), [&clave](const HashEntry<K, V>& entry) {
+            return entry.getClave() == clave;
+        });
+        if (it != lista.end()) {
+            return it->getValor();
+        } else {
+            throw runtime_error("Clave no encontrada");
         }
-        // Si la clave no está presente, no hace nada
     }
 
-    bool esVacio() {
-        // Verifica si el mapa está vacío
-        return hashMap.empty();
+    void eliminar(const K& clave) {
+        size_t indice = hashFunc(clave);
+        auto& lista = tabla[indice];
+        auto it = find_if(lista.begin(), lista.end(), [&clave](const HashEntry<K, V>& entry) {
+            return entry.getClave() == clave;
+        });
+        if (it != lista.end()) {
+            lista.erase(it);
+            --tamano;
+        }
+    }
+
+    size_t obtenerTamano() const {
+        return tamano;
+    }
+
+    Articulo* obtenerTodosLosArticulos(int& count) const {
+        count = tamano; // Establecemos el conteo de articulos.
+        if (count == 0) return nullptr; // Si no hay articulos, retornamos nullptr.
+
+        Articulo* arreglo = new Articulo[count]; // Creamos un arreglo dinámico.--
+        size_t idx = 0; // indice para el arreglo.
+
+        // Recorremos la tabla hash.
+        for (const auto& lista : tabla) {
+            for (const HashEntry<K, V>& entrada : lista) {
+                // Asumiendo que V es Articulo, copiamos el artículo en el arreglo.
+                arreglo[idx++] = entrada.getValor();
+            }
+        }
+
+        return arreglo; // Retornamos el puntero al arreglo.
     }
 };
 
-int main() {
-    HashMap mapa;
-    mapa.put("clave1", 10);
-    mapa.put("clave2", 20);
-
-    std::cout << "Valor asociado a clave1: " << mapa.get("clave1") << std::endl;
-    std::cout << "Valor asociado a clave2: " << mapa.get("clave2") << std::endl;
-
-    mapa.remove("clave1");
-
-    std::cout << "Después de eliminar clave1, es vacío: " << (mapa.esVacio() ? "Sí" : "No") << std::endl;
-
-    return 0;
-}
+#endif // HASHMAP_H
