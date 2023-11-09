@@ -1,7 +1,11 @@
 #include "Funciones.h"
-
+#include <ctime>
 int main(int argc, char *argv[])
 {
+    clock_t begin;
+    cout << "Comenzando a medir Tiempo...\n" << endl;
+    begin = clock();
+
     bool opcionEncontrada = false;
 
     for (int i = 1; i < argc; i++) {
@@ -44,5 +48,10 @@ int main(int argc, char *argv[])
     if (!opcionEncontrada) {
         cout << "ARGUMENTO NO VALIDO" << endl;
     }
+    clock_t end = clock();
+    double elapsed_secs = static_cast<double>(end - begin) / CLOCKS_PER_SEC;
+    cout << " * Tiempo de Ejecucion * " << endl;
+    cout << elapsed_secs << endl;
+
     return 0;
 }
