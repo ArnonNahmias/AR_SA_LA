@@ -189,7 +189,7 @@ void CantTotalArt(){
 
     cout << "\n---------------------------------------------------------------" << endl;
     cout << "CANTIDAD TOTAL DE ARTICULOS: " << cantTotal << endl;
-    cout << "---------------------------------------------------------------" << endl;
+    cout << "---------------------------------------------------------------\n" << endl;
 
 
 }
@@ -197,14 +197,14 @@ void CantTotalArt(){
 void cantTotalArtDif(){
     cout << "\n---------------------------------------------------------------" << endl;
     cout << "CANTIDAD TOTAL DE ARTICULOS DIFERENTES: " << inventario.getTamano() << endl;
-    cout << "---------------------------------------------------------------" << endl;
+    cout << "---------------------------------------------------------------\n" << endl;
 }
 
 void listadoMinStock(int minStock){
     Articulo* arregloDeArticulos;
     arregloDeArticulos = inventario.obtenerTodosLosArticulos(cantArt);
     if (minStock < 0){
-        cerr << "ERROR: Valor NO Aceptado, Ingresar Valores Positivos. " << endl;
+        cerr << "\nERROR: Valor NO Aceptado, Ingresar Valores Positivos.\n" << endl;
         exit(1);
     }
     cout << "\n---------------------------------------------------------------" << endl;
@@ -222,16 +222,20 @@ void listadoMinStockDeposito(int minStock, int deposito){
     Articulo* arregloDeArticulos;
     deposito = deposito -1;
     arregloDeArticulos = inventario.obtenerTodosLosArticulos(cantArt);
-    if (minStock < 0){ //todo Cambiarlo el try catch.
-        cerr << "ERROR: Valor NO Aceptado, Ingresar Valores Positivos. " << endl;
-        exit(1);// Retornar 0 o lanzar una excepción según la lógica de tu aplicación.
+    if (minStock < 0){
+        cerr << "\nERROR: Valor NO Aceptado, Ingresar Valores Positivos.\n" << endl;
+        exit(1);//
+    }if (deposito < 0 || deposito >= arregloDeArticulos[2].getCantDepositosFinales()){
+        cerr << "\nERROR: Valor NO Aceptado, Deposito no existente.\n" << endl;
+        exit(1);//
     }
     cout << "\n---------------------------------------------------------------" << endl;
-    cout << "LISTADO ARTICULOS CON STOCK MENOR O IGUAL A " << minStock << " EN EL DEPOSITO " << deposito << " : " << endl;
-    cout << "---------------------------------------------------------------" << endl;
+    cout << "LISTADO ARTICULOS CON STOCK MENOR O IGUAL A " << minStock << " EN EL DEPOSITO " << deposito + 1 << " : " << endl;
+    cout << "---------------------------------------------------------------\n" << endl;
 
     for (size_t i = 0; i < cantArt; ++i) {
-        if ( arregloDeArticulos[i].obtenerStockDeposito(deposito) >= minStock){
+
+        if ( arregloDeArticulos[i].obtenerStockDeposito(deposito) <= minStock){
             arregloDeArticulos[i].imprimir();
         }
     }
@@ -246,7 +250,7 @@ void stockArticulo(string nombreArticulo){
     artEncontrado = inventario.obtener(nombreArticulo);
     cout << "\n---------------------------------------------------------------" << endl;
     cout << "STOCK DEL ARTICULO " << nombreArticulo << " :" << artEncontrado.getStockTotal() << endl;
-    cout << "---------------------------------------------------------------" << endl;
+    cout << "---------------------------------------------------------------\n" << endl;
 }
 
 void stockArticuloDeposito(string nombreArticulo, int deposito){
@@ -256,21 +260,25 @@ void stockArticuloDeposito(string nombreArticulo, int deposito){
     deposito = deposito - 1;
     Articulo artEncontrado;
     artEncontrado = inventario.obtener(nombreArticulo);
+    if (deposito < 0 || deposito >= artEncontrado.getCantDepositosFinales()){
+        cerr << "\nERROR: Valor NO Aceptado, Deposito no existente.\n" << endl;
+        exit(1);//
+    }
     cout << "\n---------------------------------------------------------------" << endl;
     cout << "STOCK DEL ARTICULO " << nombreArticulo << " EN EL DEPOSITO " << deposito+1 << " : " << artEncontrado.obtenerStockDeposito(deposito) << endl;
-    cout << "---------------------------------------------------------------" << endl;
+    cout << "---------------------------------------------------------------\n" << endl;
 }
 
 void listadoMaxStock(int maxStock){
     Articulo* arregloDeArticulos;
     arregloDeArticulos = inventario.obtenerTodosLosArticulos(cantArt);
     if (maxStock < 0){
-        cerr << "ERROR: Valor NO Aceptado, Ingresar Valores Positivos. " << endl;
+        cerr << "\nERROR: Valor NO Aceptado, Ingresar Valores Positivos.\n" << endl;
         exit(1);
     }
     cout << "\n---------------------------------------------------------------" << endl;
     cout << "LISTADO DE ARTICULOS CON STOCK MAYOR O IGUAL A " << maxStock << " :" << endl;
-    cout << "---------------------------------------------------------------" << endl;
+    cout << "---------------------------------------------------------------\n" << endl;
 
     for (size_t i = 0; i < cantArt; ++i) {
         if ( arregloDeArticulos[i].getStockTotal() >= maxStock){
