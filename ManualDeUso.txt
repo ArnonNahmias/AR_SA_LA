@@ -1,0 +1,32 @@
+**Manual de Uso del Programa por Terminal:**
+
+Este programa está diseñado para procesar datos relacionados con artículos y depósitos desde la línea de comandos. A continuación, se presenta una guía detallada sobre cómo utilizar el programa correctamente:
+
+1. **Compilación del Programa:**
+   g++ -o mi_programa main.cpp 
+   ```
+
+2. **Ejecución del Programa:**
+   ```
+   - **`-file nombreArchivo.csv`:** Esta opción debe ser utilizada para especificar el nombre del archivo CSV que contiene los datos de los artículos y depósitos que deseas procesar. Reemplaza `nombreArchivo.csv` con el nombre real de tu archivo CSV.
+
+   - **`-cantTotalArt`:** Utiliza esta opción para conocer la cantidad total de artículos en el archivo proporcionado.
+
+   - **`-cantTotalArtDif`:** Esta opción te mostrará la cantidad total de artículos diferentes en el archivo.
+
+   - **`-min_stock valorMinimo`:** Con esta opción, puedes listar los artículos con un stock igual o menor a `valorMinimo`.
+
+   - **`-min_stock_deposito valorMinimo numeroDeposito`:** Usa esta opción para obtener la lista de artículos con un stock igual o menor a `valorMinimo` en un depósito específico. Reemplaza `numeroDeposito` con el número real del depósito que deseas consultar.
+
+   - **`-stock_art nombreArticulo`:** Proporciona el nombre del artículo como argumento para obtener el stock de ese artículo en todos los depósitos.
+
+   - **`-stock_art_dep nombreArticulo numeroDeposito`:** Con esta opción, puedes obtener el stock de un artículo específico (`nombreArticulo`) en un depósito particular (`numeroDeposito`).
+
+   - **`-max_stock valorMaximo`:** Utiliza esta opción para listar los artículos con un stock igual o mayor a `valorMaximo`.
+
+3. **Ejemplos de Uso:**
+   - Para procesar un archivo llamado `datos.csv` y encontrar la cantidad total de artículos diferentes, el comando sería:
+     ```
+     ./mi_programa -file datos.csv -cantTotalArtDif
+   
+Recordar proporcionar los valores adecuados para las opciones que requieran argumentos adicionales, como el nombre del archivo o el número del depósito. 
