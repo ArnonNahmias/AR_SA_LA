@@ -19,19 +19,34 @@ private:
     vector<int> depositos; // Lista de depósitos donde se encuentra el artículo.
 
 public:
-    // Constructor por defecto.
+    /**
+   * @brief Constructor por defecto.
+   *
+   * Inicializa un artículo con valores predeterminados.
+   */
     Articulo() : grupo(""), codigoDeBarras(""), nombre("") {}
 
-    // Constructor que inicializa un artículo con grupo, código de barras y nombre.
+    /**
+     * @brief Constructor que inicializa un artículo con grupo, código de barras y nombre.
+     * @param grupo Grupo o categoría del artículo.
+     * @param codigoDeBarras Código único del artículo.
+     * @param nombre Nombre descriptivo del artículo.
+     */
     Articulo(const string &grupo, const string &codigoDeBarras, const string &nombre) :
             grupo(grupo), codigoDeBarras(codigoDeBarras), nombre(nombre) {}
 
-    // Agrega un nuevo depósito a la lista de depósitos del artículo.
+    /**
+     * @brief Agrega un nuevo depósito a la lista de depósitos del artículo.
+     * @param deposito Cantidad de artículos en el nuevo depósito.
+     */
     void agregarDeposito(const int &deposito) {
         depositos.push_back(deposito);
     }
 
-    // Método para obtener el stock total del artículo.
+    /**
+     * @brief Método para obtener el stock total del artículo.
+     * @return El stock total como un entero.
+     */
     int getStockTotal() const {
         int total = 0;
         for (int cantidad : depositos) {
@@ -40,7 +55,9 @@ public:
         return total;
     }
 
-    // Imprime la información del artículo en consola.
+    /**
+     * @brief Imprime la información del artículo en consola.
+     */
     void imprimir() {
         int cantDepositos = depositos.size();
         cout << "|---------------------------------------|" << endl;
@@ -51,61 +68,36 @@ public:
         for (int i = 0; i < cantDepositos; i++) {
             cout << "> Deposito " << i + 1 << ": " << depositos[i] << endl;
         }
-        cout << "> Stock Total: " << getStockTotal() << endl; // Usar el método obtenerStockTotal
+        cout << "> Stock Total: " << getStockTotal() << endl;
 
         cout << "|---------------------------------------|" << endl;
     }
 
-    // Método para obtener el stock de un artículo en un depósito específico por índice.
+    /**
+     * @brief Método para obtener el stock de un artículo en un depósito específico por índice.
+     * @param indice Índice del depósito a consultar.
+     * @return Cantidad de stock en el depósito indicado.
+     * @throw std::out_of_range si el índice está fuera de rango.
+     */
     int obtenerStockDeposito(int indice) const {
         if (indice >= 0 && indice < depositos.size()) {
             return depositos[indice];
         } else {
             cerr << "ERROR: Índice fuera de rango." << endl;
-            return 0; // Retornar 0 o lanzar una excepción según la lógica de tu aplicación.
+            return 0; // O lanzar una excepción std::out_of_range.
         }
     }
 
-
-    // Obtiene el nombre del artículo.
-    const string& getNombre() const {
-        return nombre;
-    }
-
-    // Obtiene el código de barras del artículo.
-    const string& getCodigoDeBarras() const {
-        return codigoDeBarras;
-    }
-
-    // Obtiene el grupo del artículo.
-    const string &getGrupo() const {
-        return grupo;
-    }
-
-    // Establece el grupo del artículo.
-    void setGrupo(const string &grupo) {
-        this->grupo = grupo;
-    }
-
-    // Establece el código de barras del artículo.
-    void setCodigoDeBarras(const string &codigoDeBarras) {
-        this->codigoDeBarras = codigoDeBarras;
-    }
-
-    // Establece el nombre del artículo.
-    void setNombre(const string &nombre) {
-        this->nombre = nombre;
-    }
-
-    // Obtiene la lista de depósitos donde se encuentra el artículo.
-    const vector<int> &getDepositos() const {
-        return depositos;
-    }
-
-    // Establece la lista de depósitos donde se encuentra el artículo.
-    void setDepositos(const vector<int> &depositos) {
-        this->depositos = depositos;
-    }
+    // Getters y setters con comentarios simplificados para Doxygen.
+    const string& getNombre() const { return nombre; }
+    const string& getCodigoDeBarras() const { return codigoDeBarras; }
+    const string &getGrupo() const { return grupo; }
+    void setGrupo(const string &grupo) { this->grupo = grupo; }
+    void setCodigoDeBarras(const string &codigoDeBarras) { this->codigoDeBarras = codigoDeBarras; }
+    void setNombre(const string &nombre) { this->nombre = nombre; }
+    const vector<int> &getDepositos() const { return depositos; }
+    void setDepositos(const vector<int> &depositos) { this->depositos = depositos; }
 };
+
 
 #endif //PROYECTO_ARTICULO_H
