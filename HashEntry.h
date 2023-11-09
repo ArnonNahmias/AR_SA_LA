@@ -1,32 +1,27 @@
-//
-// Created by dante on 4/11/2023.
-//
-
+// HashEntry.h
 #ifndef PROYECTO_HASHENTRY_H
 #define PROYECTO_HASHENTRY_H
 
-
-template <class K, class T>
+template <class K, class V>
 class HashEntry {
 private:
     K clave;
-    T valor;
+    V valor;
 
 public:
-    HashEntry(const K& key, const T& value) : clave(key), valor(value) {}
+    HashEntry(const K& key, const V& value) : clave(key), valor(value) {}
 
     const K& getClave() const {
         return clave;
     }
 
-    const T& getValor() const {
+    const V& getValor() const {
         return valor;
     }
 
-    void setValor(const T& value) {
+    void setValor(const V& value) {
         valor = value;
     }
 };
-
 
 #endif //PROYECTO_HASHENTRY_H
